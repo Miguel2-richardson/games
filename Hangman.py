@@ -12,6 +12,7 @@ word_bank = ["Fellow", "Hello", "Chess"]
 global guessed
 guessed = []
 global word
+global win
 global game_word
 global wrong_cnt
 wrong_cnt = 0
@@ -26,6 +27,7 @@ def build_word(holder, guess):
 #Builds man for incorrect answer
 def build_man():
     global wrong_cnt
+    print("\n")
     if wrong_cnt == 0:
         print("_|_")
         return(0)
@@ -106,12 +108,29 @@ def compare(guess):
         print(guess, "found")
     return(holder)
 
-# Handles display in console
-def display():
+#End message
+def congratulations():
+    print("\n")
+    if game_word == win:
+        print("Congratulations!\n",game_word, " was correct")
+    else:
+        print("Not quite right.\n", word, "was the word.\n", "You got ", game_word)
+    return()
+
+#Initial display
+def display0(word):
+    print("Hangman. ")
     lines = len(word)
     print("_ "*lines)
-    print(guessed)
     return(0)
+
+# Handles display in console
+def display(game_word):
+    print("\n",game_word)
+    print("\nWhat you guessed: ", guessed)
+    return(0)
+
+
 
 #Takes in user input and checks that it is of length 1.
 def read():
@@ -125,30 +144,38 @@ def read():
 
 #Randomly selects a word from word_bank
 def select():
-    choice = 0#rand(0,(len(word_bank) - 1))
+    choice = rand(0,(len(word_bank) - 1))
     choice = word_bank[choice].lower() #lowercase f is different from uppercase F, removes having to worry about this
     return(choice)
 
 
 
+#Need to add a loop to facilitate the game. 
+#Termination condition can be from return value of build_man.
+#Termination condition for winning.
+#When wrong_cnt == 8 game ends. 
+
     
 
 
-print("Hangman. ")
 word = select()
+display0(word)
 game_word = ["_"]*len(word)
+win = [i for i in word]
 # display()
 #read()
 # display()
 #check = read()
 
-guess = read()
-holder = compare(guess)
-test = build_word(holder, guess)
-wrong_cnt = 5
-build_man()
+while (game_word != win) and wrong_cnt !=8:
+    
+    guess = read()
+    holder = compare(guess)
+    test = build_word(holder, guess)
+    build_man()
+    display(test)
+    
+congratulations()
 
-#Make a file for functions, and call that library.
-#Need to add a loop to facilitate the game. 
-#Termination condition can be from return value of build_man.
-#When wrong_cnt == 8 game ends. 
+
+
