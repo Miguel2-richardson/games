@@ -7,14 +7,9 @@ Created on Fri Apr 30 23:32:19 2021
 
 from random import randint as rand
 
-global word_bank 
+
 word_bank = ["Fellow", "Hello", "Chess"]
-global guessed
 guessed = []
-global word
-global win
-global game_word
-global wrong_cnt
 wrong_cnt = 0
 
 #Uses guess and holder to put letters in postion for the game
@@ -29,25 +24,29 @@ def build_man():
     global wrong_cnt
     print("\n")
     if wrong_cnt == 0:
+        print(" | ")
         print("_|_")
         return(0)
     if wrong_cnt == 1:
+        print(" | ")
         print(" | ")
         print("_|_")
         return(0)
     if wrong_cnt == 2:
         print(" | ")
         print(" | ")
+        print(" | ")
         print("_|_")
         return(0)
     if wrong_cnt == 3:
+        print(" __")
         print(" | ")
         print(" | ")
         print(" | ")
         print("_|_")
         return(0)
     if wrong_cnt == 4:
-        print(" __")
+        print(" ___")
         print(" | ")
         print(" | ")
         print(" | ")
@@ -55,19 +54,12 @@ def build_man():
         return(0)
     if wrong_cnt == 5:
         print(" ___")
-        print(" | ")
-        print(" | ")
-        print(" | ")
-        print("_|_")
-        return(0)
-    if wrong_cnt == 6:
-        print(" ___")
         print(" |  |")
         print(" | ")
         print(" | ")
         print("_|_")
         return(0)
-    if wrong_cnt == 7:
+    if wrong_cnt == 6:
         print(" ___")
         print(" |  |")
         print(" |  O")
@@ -88,6 +80,7 @@ def build_man():
         print(" | /|\\")
         print("_|_/ \\")
         return(0)
+
     return(0)
 
 #Finds letter match and postion
@@ -115,6 +108,7 @@ def congratulations():
         print("Congratulations!\n",game_word, " was correct")
     else:
         print("Not quite right.\n", word, "was the word.\n", "You got ", game_word)
+    play_again()
     return()
 
 #Initial display
@@ -129,6 +123,20 @@ def display(game_word):
     print("\n",game_word)
     print("\nWhat you guessed: ", guessed)
     return(0)
+
+def play_again():
+    global wrong_cnt
+    global guessed
+    wrong_cnt = 0
+    guessed = []
+    
+    
+    choice = input("Press 1 to play again. Any other key to quit ")
+    if choice =="1":
+        
+        main()
+    elif choice: 
+        return(0)
 
 
 
@@ -150,6 +158,7 @@ def select():
 
 
 
+
 #Need to add a loop to facilitate the game. 
 #Termination condition can be from return value of build_man.
 #Termination condition for winning.
@@ -157,25 +166,27 @@ def select():
 
     
 
-
-word = select()
-display0(word)
-game_word = ["_"]*len(word)
-win = [i for i in word]
-# display()
-#read()
-# display()
-#check = read()
-
-while (game_word != win) and wrong_cnt !=8:
+def main():
+    global word
+    global win
+    global game_word
     
-    guess = read()
-    holder = compare(guess)
-    test = build_word(holder, guess)
-    build_man()
-    display(test)
+    word = select()
+    display0(word)
+    game_word = ["_"]*len(word)
+    win = [i for i in word]
+
+
+    while (game_word != win) and wrong_cnt !=8:
     
-congratulations()
+        guess = read()
+        holder = compare(guess)
+        test = build_word(holder, guess)
+        build_man()
+        display(test)
+    
+    congratulations()
 
 
-
+if __name__ == "__main__":
+    main()
